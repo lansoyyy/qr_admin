@@ -18,24 +18,16 @@ class HomeScreen extends StatelessWidget {
 
   var drawerList = [
     'DASHBOARD',
-    'LIVE MAP',
-    'BOOKINGS',
+    'RIDES',
     'SALES',
-    'CARS',
-    'DRIVERS',
-    'PASSENGERS',
-    'SETTINGS',
+    'REPORTS',
   ];
 
   var icons = [
     Icons.dashboard,
-    Icons.location_on_rounded,
-    Icons.local_taxi,
+    Icons.attractions,
     Icons.stacked_line_chart_sharp,
-    Icons.directions_car,
-    Icons.personal_injury_rounded,
-    Icons.groups_sharp,
-    Icons.settings,
+    Icons.report,
   ];
 
   HomeScreen({super.key});
@@ -108,14 +100,9 @@ class HomeScreen extends StatelessWidget {
               controller: page,
               children: [
                 DashboardTab(),
-                const MapScreen(),
                 const BookingScreen(),
                 const SalesTab(),
-                const CarsTab(),
-                const DriversTab(),
-                const PassengersTab(),
-                const SettingsTab(),
-                const MessagesTab(),
+                const SizedBox(),
               ],
             ),
           ),

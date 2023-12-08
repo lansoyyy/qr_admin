@@ -203,7 +203,7 @@ class DashboardTab extends StatelessWidget {
                           return CardWidget(
                             widget: ListTile(
                               title: TextBold(
-                                  text: 'No. of Bookings',
+                                  text: 'No. of Rides',
                                   fontSize: 18,
                                   color: blueAccent),
                               subtitle: TextBold(
@@ -219,7 +219,7 @@ class DashboardTab extends StatelessWidget {
                                 ),
                                 child: const Center(
                                   child: Icon(
-                                    Icons.book,
+                                    Icons.attractions,
                                     color: Colors.black,
                                   ),
                                 ),
@@ -293,10 +293,10 @@ class DashboardTab extends StatelessWidget {
                                     return ListTileWidget(
                                         perct: data1.docs.length /
                                             data.docs.length,
-                                        title: 'Number of Taxis on Duty',
+                                        title: 'Number of Customers',
                                         subtitle:
                                             '${data1.docs.length} out of ${data.docs.length}',
-                                        icon: Icons.local_taxi,
+                                        icon: Icons.group,
                                         color: greenAccent);
                                   });
                             }),
@@ -351,65 +351,9 @@ class DashboardTab extends StatelessWidget {
                                             data.docs.length,
                                         subtitle:
                                             '${data1.docs.length} out of ${data.docs.length}',
-                                        title: 'Number of Bookings',
-                                        icon: Icons.taxi_alert,
+                                        title: 'Number of Rides',
+                                        icon: Icons.attractions,
                                         color: blueAccent);
-                                  });
-                            }),
-                        StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection('Bookings')
-                                .snapshots(),
-                            builder: (BuildContext context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
-                              if (snapshot.hasError) {
-                                print('error');
-                                return const Center(child: Text('Error'));
-                              }
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Padding(
-                                  padding: EdgeInsets.only(top: 50),
-                                  child: Center(
-                                      child: CircularProgressIndicator(
-                                    color: Colors.black,
-                                  )),
-                                );
-                              }
-
-                              final data = snapshot.requireData;
-                              return StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('Bookings')
-                                      .where('bookingStatus',
-                                          isEqualTo: 'Rejected')
-                                      .snapshots(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                                    if (snapshot.hasError) {
-                                      print('error');
-                                      return const Center(child: Text('Error'));
-                                    }
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Padding(
-                                        padding: EdgeInsets.only(top: 50),
-                                        child: Center(
-                                            child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        )),
-                                      );
-                                    }
-
-                                    final data1 = snapshot.requireData;
-                                    return ListTileWidget(
-                                        title: 'Total Trips Cancelled',
-                                        perct: data1.docs.length /
-                                            data.docs.length,
-                                        subtitle:
-                                            '${data1.docs.length} out of ${data.docs.length}',
-                                        icon: Icons.cancel,
-                                        color: orangeAccent);
                                   });
                             }),
                       ],
@@ -518,15 +462,12 @@ class DashboardTab extends StatelessWidget {
                                                                 LegendPosition
                                                                     .bottom),
                                                     dataMap: {
-                                                      "Number of Taxis on Duty":
+                                                      "Number of Customers":
                                                           data2.docs.length
                                                               .toDouble(),
-                                                      "Number of Bookings": data
+                                                      "Number of Rides": data
                                                           .docs.length
                                                           .toDouble(),
-                                                      "Number of Bookings Cancelled":
-                                                          data1.docs.length
-                                                              .toDouble(),
                                                     },
                                                     chartType: ChartType.disc,
                                                     baseChartColor: Colors

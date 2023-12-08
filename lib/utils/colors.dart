@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 var primaryRed = const Color(0xfff22d35);
-var secondaryRed = const Color(0xffaf171d);
+var secondaryRed = const Color.fromARGB(255, 33, 23, 175);
 var tileColorDashboard = const Color(0xfffdffe4);
 var iconColor = const Color(0xffcae7f8);
 var greenAccent = const Color(0xff50ff61);

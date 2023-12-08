@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomeScreen(),
-      title: 'Taxi Region II',
+      title: 'Amusement Park',
       builder: ((context, child) {
         return ResponsiveWrapper.builder(child,
             maxWidth: 1200,
