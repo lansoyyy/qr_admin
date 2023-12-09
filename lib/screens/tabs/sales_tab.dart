@@ -204,38 +204,6 @@ class _SalesTabState extends State<SalesTab> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 10, bottom: 10),
-          child: GestureDetector(
-            onTap: (() {
-              setState(() {
-                _index = 1;
-                filter = 'Drivers Statement';
-              });
-            }),
-            child: Container(
-              height: 50,
-              width: 300,
-              decoration: BoxDecoration(
-                border: Border.all(color: blueAccent, width: 1.5),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Center(
-                child: ListTile(
-                  leading: Icon(
-                    Icons.folder_copy_outlined,
-                    color: blueAccent,
-                    size: 32,
-                  ),
-                  title: TextBold(
-                      text: 'Drivers Statement',
-                      fontSize: 18,
-                      color: blueAccent),
-                ),
-              ),
-            ),
-          ),
-        ),
       ],
     );
   }
@@ -413,7 +381,7 @@ class _SalesTabState extends State<SalesTab> {
                                     size: 58,
                                   ),
                                   title: TextRegular(
-                                      text: 'Number of Bookings',
+                                      text: 'Number of Rides',
                                       fontSize: 14,
                                       color: blueAccent),
                                   subtitle: TextBold(
@@ -425,55 +393,6 @@ class _SalesTabState extends State<SalesTab> {
                             );
                           }),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10, bottom: 10),
-                    child: StreamBuilder<QuerySnapshot>(
-                        stream: myFilter1(),
-                        builder: (BuildContext context,
-                            AsyncSnapshot<QuerySnapshot> snapshot) {
-                          if (snapshot.hasError) {
-                            print('error');
-                            return const Center(child: Text('Error'));
-                          }
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Padding(
-                              padding: EdgeInsets.only(top: 50),
-                              child: Center(
-                                  child: CircularProgressIndicator(
-                                color: Colors.black,
-                              )),
-                            );
-                          }
-
-                          final data = snapshot.requireData;
-                          return Container(
-                            height: 90,
-                            width: 230,
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.red, width: 1.5),
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Center(
-                              child: ListTile(
-                                leading: const Icon(
-                                  Icons.taxi_alert,
-                                  color: Colors.red,
-                                  size: 58,
-                                ),
-                                title: TextRegular(
-                                    text: 'Trips Cancelled',
-                                    fontSize: 14,
-                                    color: Colors.red),
-                                subtitle: TextBold(
-                                    text: data.docs.length.toString(),
-                                    fontSize: 38,
-                                    color: Colors.red),
-                              ),
-                            ),
-                          );
-                        }),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -564,7 +483,7 @@ class _SalesTabState extends State<SalesTab> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               TextBold(
-                                  text: 'Total Fare Amount',
+                                  text: 'Total Sales Amount',
                                   fontSize: 18,
                                   color: blueAccent),
                               const SizedBox(
@@ -638,7 +557,7 @@ class _SalesTabState extends State<SalesTab> {
                       print(data.docs.length);
                       return SizedBox(
                         width: 600,
-                        height: 500,
+                        height: 475,
                         child: GridView.builder(
                             itemCount: data.docs.length,
                             gridDelegate:
@@ -670,18 +589,7 @@ class _SalesTabState extends State<SalesTab> {
                                         height: 10,
                                       ),
                                       TextBold(
-                                          text: 'Drivers Name',
-                                          fontSize: 12,
-                                          color: Colors.grey),
-                                      TextBold(
-                                          text: data.docs[index]['driverName'],
-                                          fontSize: 18,
-                                          color: Colors.black),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      TextBold(
-                                          text: 'Passengers Name',
+                                          text: 'Customers Name',
                                           fontSize: 12,
                                           color: Colors.grey),
                                       TextBold(
@@ -692,7 +600,7 @@ class _SalesTabState extends State<SalesTab> {
                                         height: 10,
                                       ),
                                       TextBold(
-                                          text: 'Destination',
+                                          text: 'Ride Name',
                                           fontSize: 12,
                                           color: Colors.grey),
                                       TextBold(
@@ -704,7 +612,7 @@ class _SalesTabState extends State<SalesTab> {
                                         height: 10,
                                       ),
                                       TextBold(
-                                          text: 'Total Fare',
+                                          text: 'Total Fee',
                                           fontSize: 12,
                                           color: Colors.grey),
                                       TextBold(
@@ -1200,7 +1108,7 @@ class _SalesTabState extends State<SalesTab> {
                           width: 225,
                           widget: ListTile(
                             title: TextBold(
-                                text: 'Number of Bookings',
+                                text: 'Number of Rides',
                                 fontSize: 16,
                                 color: blueAccent),
                             subtitle: TextBold(
@@ -1217,59 +1125,6 @@ class _SalesTabState extends State<SalesTab> {
                               child: const Center(
                                 child: Icon(
                                   Icons.drive_eta_outlined,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Bookings')
-                          .where('driverId', isEqualTo: id)
-                          .where('bookingStatus', isEqualTo: 'Rejected')
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          print('error');
-                          return const Center(child: Text('Error'));
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              color: Colors.black,
-                            )),
-                          );
-                        }
-
-                        final data = snapshot.requireData;
-                        return CardWidget(
-                          color: Colors.white,
-                          width: 225,
-                          widget: ListTile(
-                            title: TextBold(
-                                text: 'Trips Cancelled',
-                                fontSize: 16,
-                                color: blueAccent),
-                            subtitle: TextBold(
-                                text: data.docs.length.toString(),
-                                fontSize: 32,
-                                color: blueAccent),
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: primaryRed,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.taxi_alert,
                                   color: Colors.black,
                                 ),
                               ),
