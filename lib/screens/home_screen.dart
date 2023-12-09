@@ -100,7 +100,7 @@ class HomeScreen extends StatelessWidget {
               controller: page,
               children: [
                 DashboardTab(),
-                const BookingScreen(),
+                const RidesScreen(),
                 const SalesTab(),
                 const SizedBox(),
               ],

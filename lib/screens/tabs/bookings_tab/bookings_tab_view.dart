@@ -76,7 +76,7 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                           color: greenAccent,
                         ),
                         title: TextBold(
-                            text: 'No. of Bookings',
+                            text: 'No. of Rides',
                             fontSize: 18,
                             color: blueAccent),
                         subtitle: StreamBuilder<QuerySnapshot>(
