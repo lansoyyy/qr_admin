@@ -13,10 +13,28 @@ class ReportsTab extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          TextBold(text: 'Reports', fontSize: 28, color: Colors.black),
+          const SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextBold(text: 'Reports', fontSize: 28, color: Colors.black),
+              GestureDetector(
+                onTap: (() async {}),
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Colors.white,
+                      border: Border.all(color: secondaryRed)),
+                  child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: TextBold(
+                          text: 'Date: 01/01/2024',
+                          fontSize: 16,
+                          color: secondaryRed)),
+                ),
+              ),
               ButtonWidget(
                 width: 150,
                 color: secondaryRed,
