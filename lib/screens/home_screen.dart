@@ -12,6 +12,7 @@ import 'package:metro_admin/screens/tabs/sales_tab.dart';
 import 'package:metro_admin/screens/tabs/settings_tab.dart';
 import 'package:metro_admin/utils/colors.dart';
 import 'package:metro_admin/widgets/appbar_widget.dart';
+import 'package:metro_admin/widgets/text_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   PageController page = PageController();
@@ -79,17 +80,25 @@ class HomeScreen extends StatelessWidget {
                     // backgroundColor: Colors.blueGrey[700]
                     ),
                 title: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: Container(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Center(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          height: 150,
-                        ),
+                  padding: const EdgeInsets.only(bottom: 50, top: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.attractions,
+                        color: secondaryRed,
+                        size: 75,
                       ),
-                    ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextBold(
+                        text: 'Amusement Park',
+                        fontSize: 16,
+                        color: secondaryRed,
+                      ),
+                    ],
                   ),
                 ),
                 items: items,

@@ -376,7 +376,7 @@ class _SalesTabState extends State<SalesTab> {
                               child: Center(
                                 child: ListTile(
                                   leading: Icon(
-                                    Icons.local_taxi_rounded,
+                                    Icons.attractions,
                                     color: blueAccent,
                                     size: 58,
                                   ),
