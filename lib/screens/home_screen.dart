@@ -7,6 +7,7 @@ import 'package:metro_admin/screens/tabs/drivers_tab.dart';
 import 'package:metro_admin/screens/tabs/map_screen.dart';
 import 'package:metro_admin/screens/tabs/messages_tab.dart';
 import 'package:metro_admin/screens/tabs/passengers_tab.dart';
+import 'package:metro_admin/screens/tabs/reports_tab.dart';
 import 'package:metro_admin/screens/tabs/sales_tab.dart';
 import 'package:metro_admin/screens/tabs/settings_tab.dart';
 import 'package:metro_admin/utils/colors.dart';
@@ -102,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                 DashboardTab(),
                 const RidesScreen(),
                 const SalesTab(),
-                const SizedBox(),
+                const ReportsTab(),
               ],
             ),
           ),
