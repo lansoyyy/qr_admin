@@ -7,11 +7,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
-          apiKey: "AIzaSyAhSraRT3bioDsXdTsRoXNb4Q37Ljp5S_s",
-          appId: "1:694409382296:web:b9f7cceb2afec0b2ef43ed",
-          messagingSenderId: "694409382296",
-          projectId: "metro-806d3",
-          storageBucket: "metro-806d3.appspot.com"));
+          apiKey: "AIzaSyB0HijyKZx-5rqr8Ryp4HKHtZsflpoX0_o",
+          projectId: "amusement-2e6a5",
+          storageBucket: "amusement-2e6a5.appspot.com",
+          messagingSenderId: "928127195723",
+          appId: "1:928127195723:web:06834331060942c8ec0bce"));
   runApp(const MyApp());
 }
 
