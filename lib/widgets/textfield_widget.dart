@@ -11,7 +11,8 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType? inputType;
 
   const TextFieldWidget(
-      {required this.label,
+      {super.key,
+      required this.label,
       required this.controller,
       this.isObscure = false,
       this.width = 300,
@@ -36,14 +37,17 @@ class TextFieldWidget extends StatelessWidget {
                 color: Colors.black,
               ),
               borderRadius: BorderRadius.circular(5)),
-          child: TextFormField(
-            keyboardType: inputType,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: TextFormField(
+              keyboardType: inputType,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+              ),
+              maxLines: maxLine,
+              obscureText: isObscure!,
+              controller: controller,
             ),
-            maxLines: maxLine,
-            obscureText: isObscure!,
-            controller: controller,
           ),
         ),
       ],

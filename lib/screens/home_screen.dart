@@ -1,15 +1,10 @@
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'package:metro_admin/screens/tabs/add_ride_tab.dart';
 import 'package:metro_admin/screens/tabs/bookings_screen.dart';
-import 'package:metro_admin/screens/tabs/cars_tab.dart';
 import 'package:metro_admin/screens/tabs/dashboard_tab.dart';
-import 'package:metro_admin/screens/tabs/drivers_tab.dart';
-import 'package:metro_admin/screens/tabs/map_screen.dart';
-import 'package:metro_admin/screens/tabs/messages_tab.dart';
-import 'package:metro_admin/screens/tabs/passengers_tab.dart';
 import 'package:metro_admin/screens/tabs/reports_tab.dart';
 import 'package:metro_admin/screens/tabs/sales_tab.dart';
-import 'package:metro_admin/screens/tabs/settings_tab.dart';
 import 'package:metro_admin/utils/colors.dart';
 import 'package:metro_admin/widgets/appbar_widget.dart';
 import 'package:metro_admin/widgets/text_widget.dart';
@@ -18,18 +13,14 @@ class HomeScreen extends StatelessWidget {
   PageController page = PageController();
   SideMenuController page1 = SideMenuController();
 
-  var drawerList = [
-    'DASHBOARD',
-    'RIDES',
-    'SALES',
-    'REPORTS',
-  ];
+  var drawerList = ['DASHBOARD', 'RIDES', 'SALES', 'REPORTS', 'ADD RIDES'];
 
   var icons = [
     Icons.dashboard,
     Icons.attractions,
     Icons.stacked_line_chart_sharp,
     Icons.report,
+    Icons.add,
   ];
 
   HomeScreen({super.key});
@@ -113,6 +104,7 @@ class HomeScreen extends StatelessWidget {
                 const RidesScreen(),
                 const SalesTab(),
                 const ReportsTab(),
+                const AddRidesTab(),
               ],
             ),
           ),
