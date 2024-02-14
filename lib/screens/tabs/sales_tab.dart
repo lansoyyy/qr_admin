@@ -73,22 +73,20 @@ class _SalesTabState extends State<SalesTab> {
   String id = '';
 
   myFilter() {
-    print('called');
     if (filter == 'Weekly') {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
-          .where('dayType', isEqualTo: selectedType)
           .snapshots();
     } else if (filter == 'Monthly') {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
           .where('week', isEqualTo: selectedType.toString())
           .snapshots();
     } else {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
           .where('month', isEqualTo: selectedType)
           .snapshots();
@@ -96,27 +94,21 @@ class _SalesTabState extends State<SalesTab> {
   }
 
   myFilter1() {
-    print('called');
     if (filter == 'Weekly') {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
-          .where('dayType', isEqualTo: selectedType)
-          .where('bookingStatus', isEqualTo: 'Rejected')
           .snapshots();
     } else if (filter == 'Monthly') {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
-          .where('week', isEqualTo: selectedType.toString())
-          .where('bookingStatus', isEqualTo: 'Rejected')
           .snapshots();
     } else {
       return FirebaseFirestore.instance
-          .collection('Bookings')
+          .collection('Rides')
           .where('year', isEqualTo: DateTime.now().year)
           .where('month', isEqualTo: selectedType)
-          .where('bookingStatus', isEqualTo: 'Rejected')
           .snapshots();
     }
   }

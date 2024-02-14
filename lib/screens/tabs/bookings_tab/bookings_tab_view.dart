@@ -223,8 +223,6 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                       controller: EventController(),
                       // to provide custom UI for month cells.
                       cellBuilder: (date, events, isToday, isInMonth) {
-                        print(date.day);
-                        print(date.month);
                         // Return your widget to display as month cell.
                         return Container(
                             decoration: BoxDecoration(
