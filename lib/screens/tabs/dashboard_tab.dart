@@ -47,7 +47,8 @@ class DashboardTab extends StatelessWidget {
                   children: [
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
-                            .collection('Users')
+                            .collection('Rides')
+                            .where('status', isEqualTo: 'Done')
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -100,7 +101,8 @@ class DashboardTab extends StatelessWidget {
                         }),
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
-                            .collection('Bookings')
+                            .collection('Rides')
+                            .where('status', isEqualTo: 'Done')
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -180,7 +182,7 @@ class DashboardTab extends StatelessWidget {
                         }),
                     StreamBuilder<QuerySnapshot>(
                         stream: FirebaseFirestore.instance
-                            .collection('Bookings')
+                            .collection('Rides')
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -247,7 +249,8 @@ class DashboardTab extends StatelessWidget {
                         ),
                         StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
-                                .collection('Drivers')
+                                .collection('Rides')
+                                .where('status', isEqualTo: 'Done')
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -267,42 +270,16 @@ class DashboardTab extends StatelessWidget {
                               }
 
                               final data = snapshot.requireData;
-                              return StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('Drivers')
-                                      .where('isActive', isEqualTo: true)
-                                      .snapshots(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                                    if (snapshot.hasError) {
-                                      print('error');
-                                      return const Center(child: Text('Error'));
-                                    }
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Padding(
-                                        padding: EdgeInsets.only(top: 50),
-                                        child: Center(
-                                            child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        )),
-                                      );
-                                    }
-
-                                    final data1 = snapshot.requireData;
-                                    return ListTileWidget(
-                                        perct: data1.docs.length /
-                                            data.docs.length,
-                                        title: 'Number of Customers',
-                                        subtitle:
-                                            '${data1.docs.length} out of ${data.docs.length}',
-                                        icon: Icons.group,
-                                        color: greenAccent);
-                                  });
+                              return ListTileWidget(
+                                  perct: data.docs.length.toDouble(),
+                                  title: 'Number of Customers',
+                                  subtitle: '${data.docs.length}',
+                                  icon: Icons.group,
+                                  color: greenAccent);
                             }),
                         StreamBuilder<QuerySnapshot>(
                             stream: FirebaseFirestore.instance
-                                .collection('Bookings')
+                                .collection('Rides')
                                 .snapshots(),
                             builder: (BuildContext context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -322,39 +299,12 @@ class DashboardTab extends StatelessWidget {
                               }
 
                               final data = snapshot.requireData;
-                              return StreamBuilder<QuerySnapshot>(
-                                  stream: FirebaseFirestore.instance
-                                      .collection('Bookings')
-                                      .where('bookingStatus',
-                                          isNotEqualTo: 'Rejected')
-                                      .snapshots(),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                                    if (snapshot.hasError) {
-                                      print('error');
-                                      return const Center(child: Text('Error'));
-                                    }
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return const Padding(
-                                        padding: EdgeInsets.only(top: 50),
-                                        child: Center(
-                                            child: CircularProgressIndicator(
-                                          color: Colors.black,
-                                        )),
-                                      );
-                                    }
-
-                                    final data1 = snapshot.requireData;
-                                    return ListTileWidget(
-                                        perct: data1.docs.length /
-                                            data.docs.length,
-                                        subtitle:
-                                            '${data1.docs.length} out of ${data.docs.length}',
-                                        title: 'Number of Rides',
-                                        icon: Icons.attractions,
-                                        color: blueAccent);
-                                  });
+                              return ListTileWidget(
+                                  perct: data.docs.length.toDouble(),
+                                  subtitle: '${data.docs.length}',
+                                  title: 'Number of Rides',
+                                  icon: Icons.attractions,
+                                  color: blueAccent);
                             }),
                       ],
                     ),
@@ -372,123 +322,91 @@ class DashboardTab extends StatelessWidget {
                             ),
                             child: Center(
                               child: SizedBox(
-                                width: 250,
-                                child: StreamBuilder<QuerySnapshot>(
-                                    stream: FirebaseFirestore.instance
-                                        .collection('Drivers')
-                                        .where('isActive', isEqualTo: true)
-                                        .snapshots(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                                      if (snapshot.hasError) {
-                                        print('error');
-                                        return const Center(
-                                            child: Text('Error'));
-                                      }
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Padding(
-                                          padding: EdgeInsets.only(top: 50),
-                                          child: Center(
-                                              child: CircularProgressIndicator(
-                                            color: Colors.black,
-                                          )),
-                                        );
-                                      }
+                                  width: 250,
+                                  child: StreamBuilder<QuerySnapshot>(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('Rides')
+                                          .snapshots(),
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<QuerySnapshot>
+                                              snapshot) {
+                                        if (snapshot.hasError) {
+                                          print('error');
+                                          return const Center(
+                                              child: Text('Error'));
+                                        }
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Padding(
+                                            padding: EdgeInsets.only(top: 50),
+                                            child: Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                              color: Colors.black,
+                                            )),
+                                          );
+                                        }
 
-                                      final data2 = snapshot.requireData;
-                                      return StreamBuilder<QuerySnapshot>(
-                                          stream: FirebaseFirestore.instance
-                                              .collection('Bookings')
-                                              .snapshots(),
-                                          builder: (BuildContext context,
-                                              AsyncSnapshot<QuerySnapshot>
-                                                  snapshot) {
-                                            if (snapshot.hasError) {
-                                              print('error');
-                                              return const Center(
-                                                  child: Text('Error'));
-                                            }
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return const Padding(
-                                                padding:
-                                                    EdgeInsets.only(top: 50),
-                                                child: Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                  color: Colors.black,
-                                                )),
+                                        final data1 = snapshot.requireData;
+                                        return StreamBuilder<QuerySnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection('Rides')
+                                                .where('status',
+                                                    isEqualTo: 'Done')
+                                                .snapshots(),
+                                            builder: (BuildContext context,
+                                                AsyncSnapshot<QuerySnapshot>
+                                                    snapshot) {
+                                              if (snapshot.hasError) {
+                                                print('error');
+                                                return const Center(
+                                                    child: Text('Error'));
+                                              }
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Padding(
+                                                  padding:
+                                                      EdgeInsets.only(top: 50),
+                                                  child: Center(
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                    color: Colors.black,
+                                                  )),
+                                                );
+                                              }
+
+                                              final data2 =
+                                                  snapshot.requireData;
+                                              return PieChart(
+                                                legendOptions:
+                                                    const LegendOptions(
+                                                        showLegends: true,
+                                                        legendPosition:
+                                                            LegendPosition
+                                                                .bottom),
+                                                dataMap: {
+                                                  "Number of Customers": data2
+                                                      .docs.length
+                                                      .toDouble(),
+                                                  "Number of Rides": data1
+                                                      .docs.length
+                                                      .toDouble(),
+                                                },
+                                                chartType: ChartType.disc,
+                                                baseChartColor: Colors.grey[50]!
+                                                    .withOpacity(0.15),
+                                                colorList: colorList,
+                                                chartValuesOptions:
+                                                    const ChartValuesOptions(
+                                                  showChartValuesInPercentage:
+                                                      true,
+                                                ),
+                                                totalValue: (data1.docs.length +
+                                                        data2.docs.length)
+                                                    .toDouble(),
                                               );
-                                            }
-
-                                            final data = snapshot.requireData;
-                                            return StreamBuilder<QuerySnapshot>(
-                                                stream: FirebaseFirestore
-                                                    .instance
-                                                    .collection('Bookings')
-                                                    .where('bookingStatus',
-                                                        isEqualTo: 'Rejected')
-                                                    .snapshots(),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot<QuerySnapshot>
-                                                        snapshot) {
-                                                  if (snapshot.hasError) {
-                                                    print('error');
-                                                    return const Center(
-                                                        child: Text('Error'));
-                                                  }
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return const Padding(
-                                                      padding: EdgeInsets.only(
-                                                          top: 50),
-                                                      child: Center(
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                        color: Colors.black,
-                                                      )),
-                                                    );
-                                                  }
-
-                                                  final data1 =
-                                                      snapshot.requireData;
-                                                  return PieChart(
-                                                    legendOptions:
-                                                        const LegendOptions(
-                                                            showLegends: true,
-                                                            legendPosition:
-                                                                LegendPosition
-                                                                    .bottom),
-                                                    dataMap: {
-                                                      "Number of Customers":
-                                                          data2.docs.length
-                                                              .toDouble(),
-                                                      "Number of Rides": data
-                                                          .docs.length
-                                                          .toDouble(),
-                                                    },
-                                                    chartType: ChartType.disc,
-                                                    baseChartColor: Colors
-                                                        .grey[50]!
-                                                        .withOpacity(0.15),
-                                                    colorList: colorList,
-                                                    chartValuesOptions:
-                                                        const ChartValuesOptions(
-                                                      showChartValuesInPercentage:
-                                                          true,
-                                                    ),
-                                                    totalValue: (data2
-                                                                .docs.length +
-                                                            data1.docs.length +
-                                                            data.docs.length)
-                                                        .toDouble(),
-                                                  );
-                                                });
-                                          });
-                                    }),
-                              ),
+                                            });
+                                      })),
                             ),
                           ),
                         ),
