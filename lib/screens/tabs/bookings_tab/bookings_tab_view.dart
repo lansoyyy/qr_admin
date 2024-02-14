@@ -29,36 +29,6 @@ class _BookingsTabViewState extends State<BookingsTabView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              elevation: 3,
-              child: Container(
-                height: 40,
-                width: 400,
-                decoration:
-                    BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                child: TextFormField(
-                  onChanged: (value) {
-                    setState(() {
-                      filter = value;
-                    });
-                  },
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Search',
-                    hintStyle: TextStyle(fontFamily: 'QRegular'),
-                    prefixIcon: Icon(
-                      Icons.search,
-                      color: Colors.grey,
-                    ),
-                    suffixIcon: Icon(
-                      Icons.calendar_month,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-              ),
-            ),
             const SizedBox(
               height: 20,
             ),
@@ -82,8 +52,7 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                         subtitle: StreamBuilder<QuerySnapshot>(
                             stream: filterDate == 0
                                 ? FirebaseFirestore.instance
-                                    .collection('Bookings')
-                                    .where('type', isEqualTo: widget.type)
+                                    .collection('Rides')
                                     .where('year',
                                         isEqualTo: DateTime.now().year)
                                     .where('month',
@@ -91,8 +60,7 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                                     .where('day', isEqualTo: DateTime.now().day)
                                     .snapshots()
                                 : FirebaseFirestore.instance
-                                    .collection('Bookings')
-                                    .where('type', isEqualTo: widget.type)
+                                    .collection('Rides')
                                     .where('year', isEqualTo: filterYear)
                                     .where('month', isEqualTo: filterMonth)
                                     .where('day', isEqualTo: filterDate)
@@ -151,30 +119,16 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                     StreamBuilder<QuerySnapshot>(
                         stream: filterDate == 0
                             ? FirebaseFirestore.instance
-                                .collection('Bookings')
-                                .where('type', isEqualTo: widget.type)
+                                .collection('Rides')
                                 .where('year', isEqualTo: DateTime.now().year)
                                 .where('month', isEqualTo: DateTime.now().month)
                                 .where('day', isEqualTo: DateTime.now().day)
-                                .where('userName',
-                                    isGreaterThanOrEqualTo:
-                                        toBeginningOfSentenceCase(filter))
-                                .where('userName',
-                                    isLessThan:
-                                        '${toBeginningOfSentenceCase(filter)}z')
                                 .snapshots()
                             : FirebaseFirestore.instance
-                                .collection('Bookings')
-                                .where('type', isEqualTo: widget.type)
+                                .collection('Rides')
                                 .where('year', isEqualTo: filterYear)
                                 .where('month', isEqualTo: filterMonth)
                                 .where('day', isEqualTo: filterDate)
-                                .where('userName',
-                                    isGreaterThanOrEqualTo:
-                                        toBeginningOfSentenceCase(filter))
-                                .where('userName',
-                                    isLessThan:
-                                        '${toBeginningOfSentenceCase(filter)}z')
                                 .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
