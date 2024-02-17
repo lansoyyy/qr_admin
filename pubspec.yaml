@@ -48,6 +48,10 @@ dependencies:
   firebase_auth:
   google_maps_flutter_web:
   intl:
+  permission_handler:
+  open_file:
+  printing: ^5.9.3
+  path_provider:
   # flutter_map_zoombuttons:
   #   git: https://github.com/fleaflet/flutter_map_zoombuttons.git
 
