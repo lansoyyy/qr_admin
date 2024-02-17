@@ -17,7 +17,7 @@ class SalesTab extends StatefulWidget {
 class _SalesTabState extends State<SalesTab> {
   int _index = 0;
 
-  List<String> filters = ['Weekly', 'Monthly', 'Yearly'];
+  List<String> filters = ['Yearly'];
 
   String filter = '';
   String filterSearch = '';
@@ -151,8 +151,8 @@ class _SalesTabState extends State<SalesTab> {
               index: _index,
               children: [
                 Options(),
-                filter != 'Drivers Statement' ? Receipts() : Drivers(),
-                id == '' ? Types() : DriverData(driverData),
+                filter != 'Drivers Statement' ? Receipts() : const SizedBox(),
+                id == '' ? Types() : const SizedBox(),
                 Data(),
               ],
             ),
@@ -465,7 +465,7 @@ class _SalesTabState extends State<SalesTab> {
                       double earnings = 0;
 
                       for (int i = 0; i < data.docs.length; i++) {
-                        earnings += data.docs[i]['payment'];
+                        earnings += data.docs[i]['total'];
                       }
                       return CardWidget(
                         width: 500,
@@ -546,7 +546,6 @@ class _SalesTabState extends State<SalesTab> {
 
                       final data = snapshot.requireData;
 
-                      print(data.docs.length);
                       return SizedBox(
                         width: 600,
                         height: 475,
@@ -556,7 +555,7 @@ class _SalesTabState extends State<SalesTab> {
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2),
                             itemBuilder: ((context, index) {
-                              double payments = data.docs[index]['payment'];
+                              double payments = data.docs[index]['total'];
                               return Card(
                                 elevation: 7,
                                 child: Padding(
@@ -585,7 +584,7 @@ class _SalesTabState extends State<SalesTab> {
                                           fontSize: 12,
                                           color: Colors.grey),
                                       TextBold(
-                                          text: data.docs[index]['userName'],
+                                          text: data.docs[index]['name'],
                                           fontSize: 18,
                                           color: Colors.black),
                                       const SizedBox(
@@ -596,8 +595,7 @@ class _SalesTabState extends State<SalesTab> {
                                           fontSize: 12,
                                           color: Colors.grey),
                                       TextBold(
-                                          text: data.docs[index]
-                                              ['userDestination'],
+                                          text: data.docs[index]['ride'],
                                           fontSize: 18,
                                           color: Colors.black),
                                       const SizedBox(
@@ -624,512 +622,6 @@ class _SalesTabState extends State<SalesTab> {
           ],
         ),
       ],
-    );
-  }
-
-  Widget Drivers() {
-    return SingleChildScrollView(
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                elevation: 3,
-                child: Container(
-                  height: 40,
-                  width: 400,
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(100)),
-                  child: TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        filterSearch = value;
-                      });
-                    },
-                    decoration: const InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: "Search driver's name",
-                      hintStyle: TextStyle(fontFamily: 'QRegular'),
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              StreamBuilder<QuerySnapshot>(
-                  stream: FirebaseFirestore.instance
-                      .collection('Drivers')
-                      .where('name',
-                          isGreaterThanOrEqualTo:
-                              toBeginningOfSentenceCase(filterSearch))
-                      .where('name',
-                          isLessThan:
-                              '${toBeginningOfSentenceCase(filterSearch)}z')
-                      .snapshots(),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<QuerySnapshot> snapshot) {
-                    if (snapshot.hasError) {
-                      print('error');
-                      return const Center(child: Text('Error'));
-                    }
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Padding(
-                        padding: EdgeInsets.only(top: 50),
-                        child: Center(
-                            child: CircularProgressIndicator(
-                          color: Colors.black,
-                        )),
-                      );
-                    }
-
-                    final data = snapshot.requireData;
-
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height * 1,
-                      width: MediaQuery.of(context).size.width * 1,
-                      child: GridView.builder(
-                          itemCount: data.docs.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3),
-                          itemBuilder: ((context, index) {
-                            final driverData1 = data.docs[index];
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  _index = 2;
-                                  id = driverData1.id;
-                                  driverData = driverData1;
-                                });
-                              },
-                              child: Card(
-                                elevation: 3,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: iconColor,
-                                    borderRadius: BorderRadius.circular(7.5),
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      CircleAvatar(
-                                        minRadius: 50,
-                                        maxRadius: 50,
-                                        backgroundColor: Colors.grey,
-                                        backgroundImage: NetworkImage(
-                                            '${driverData1['profile_picture']}'),
-                                      ),
-                                      const SizedBox(
-                                        height: 10,
-                                      ),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          TextBold(
-                                              text:
-                                                  'Assigned Driver: ${driverData1['name']}',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextBold(
-                                              text:
-                                                  'Contact #: ${driverData1['contact_number']}',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          TextBold(
-                                              text:
-                                                  '${driverData1['vehicle_model']}',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextBold(
-                                              text:
-                                                  'Color: ${driverData1['vehicle_color']}',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          TextBold(
-                                              text:
-                                                  'Plate #: ${driverData1['plate_number']}',
-                                              fontSize: 14,
-                                              color: Colors.black),
-                                          const SizedBox(
-                                            height: 20,
-                                          ),
-                                        ],
-                                      ),
-                                      TextBold(
-                                          text: driverData1['isActive']
-                                              ? 'On Duty'
-                                              : 'Off Duty',
-                                          fontSize: 18,
-                                          color: Colors.black),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          })),
-                    );
-                  })
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget DriverData(userData1) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.5,
-            width: 300,
-            decoration: BoxDecoration(
-              color: iconColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                CircleAvatar(
-                  minRadius: 50,
-                  maxRadius: 50,
-                  backgroundColor: Colors.grey,
-                  backgroundImage:
-                      NetworkImage('${userData1['profile_picture']}'),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextBold(
-                    text: userData1['name'], fontSize: 18, color: Colors.black),
-                TextRegular(
-                    text: 'Full Name', fontSize: 12, color: Colors.grey),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextBold(
-                    text: userData1['plate_number'],
-                    fontSize: 18,
-                    color: Colors.black),
-                TextRegular(
-                    text: 'Plate Number', fontSize: 12, color: Colors.grey),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextBold(
-                    text: userData1['vehicle_model'],
-                    fontSize: 18,
-                    color: Colors.black),
-                TextRegular(
-                    text: 'Vehicle Model', fontSize: 12, color: Colors.grey),
-                const SizedBox(
-                  height: 10,
-                ),
-                TextBold(
-                    text: userData1['vehicle_color'],
-                    fontSize: 18,
-                    color: Colors.black),
-                TextRegular(
-                    text: 'Vehicle Color', fontSize: 12, color: Colors.grey),
-              ],
-            ),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Bookings')
-                          .where('driverId', isEqualTo: id)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          print('error');
-                          return const Center(child: Text('Error'));
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              color: Colors.black,
-                            )),
-                          );
-                        }
-
-                        final data = snapshot.requireData;
-
-                        double earnings = 0;
-
-                        for (int i = 0; i < data.docs.length; i++) {
-                          earnings += data.docs[i]['payment'];
-                        }
-
-                        return CardWidget(
-                          width: 450,
-                          widget: ListTile(
-                            title: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextBold(
-                                    text: 'Total Earnings',
-                                    fontSize: 18,
-                                    color: blueAccent),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                LinearPercentIndicator(
-                                  barRadius: const Radius.circular(100),
-                                  width: 300,
-                                  animation: true,
-                                  lineHeight: 20.0,
-                                  animationDuration: 2000,
-                                  percent: data.docs.isEmpty ? 0 : 1,
-                                  linearStrokeCap: LinearStrokeCap.roundAll,
-                                  progressColor: Colors.greenAccent,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: TextBold(
-                                      text: "₱${earnings.toStringAsFixed(2)}",
-                                      fontSize: 18,
-                                      color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: iconColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.attach_money_rounded,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Bookings')
-                          .where('driverId', isEqualTo: id)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          print('error');
-                          return const Center(child: Text('Error'));
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              color: Colors.black,
-                            )),
-                          );
-                        }
-
-                        final data = snapshot.requireData;
-                        return CardWidget(
-                          color: Colors.white,
-                          width: 225,
-                          widget: ListTile(
-                            trailing: Icon(
-                              Icons.keyboard_double_arrow_up,
-                              color: greenAccent,
-                            ),
-                            title: TextBold(
-                                text: 'New Customers',
-                                fontSize: 16,
-                                color: blueAccent),
-                            subtitle: TextBold(
-                                text: data.docs.length.toString(),
-                                fontSize: 32,
-                                color: blueAccent),
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: iconColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.group_add,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Bookings')
-                          .where('driverId', isEqualTo: id)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          print('error');
-                          return const Center(child: Text('Error'));
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              color: Colors.black,
-                            )),
-                          );
-                        }
-
-                        final data = snapshot.requireData;
-                        return CardWidget(
-                          color: Colors.white,
-                          width: 225,
-                          widget: ListTile(
-                            trailing: Icon(
-                              Icons.keyboard_double_arrow_up,
-                              color: greenAccent,
-                            ),
-                            title: TextBold(
-                                text: 'Total Customers',
-                                fontSize: 16,
-                                color: blueAccent),
-                            subtitle: TextBold(
-                                text: data.docs.length.toString(),
-                                fontSize: 32,
-                                color: blueAccent),
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: iconColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.group_add,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('Bookings')
-                          .where('driverId', isEqualTo: id)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          print('error');
-                          return const Center(child: Text('Error'));
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return const Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Center(
-                                child: CircularProgressIndicator(
-                              color: Colors.black,
-                            )),
-                          );
-                        }
-
-                        final data = snapshot.requireData;
-                        return CardWidget(
-                          color: Colors.white,
-                          width: 225,
-                          widget: ListTile(
-                            title: TextBold(
-                                text: 'Number of Rides',
-                                fontSize: 16,
-                                color: blueAccent),
-                            subtitle: TextBold(
-                                text: data.docs.length.toString(),
-                                fontSize: 32,
-                                color: blueAccent),
-                            leading: Container(
-                              height: 100,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                color: iconColor,
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.drive_eta_outlined,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
-                ],
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

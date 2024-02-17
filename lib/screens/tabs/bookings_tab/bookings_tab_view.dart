@@ -161,8 +161,6 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                                   String formattedDateTime =
                                       DateFormat('MMM').format(dateTime);
 
-                                  print(formattedDateTime);
-
                                   return Padding(
                                     padding: const EdgeInsets.only(
                                         left: 5, right: 5),
@@ -170,26 +168,19 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                                       child: Container(
                                         color: iconColor,
                                         width: 180,
-                                        height: 80,
+                                        height: 65,
                                         child: ListTile(
                                           trailing: SizedBox(
                                             width: 120,
                                             child: Row(
                                               children: [
-                                                const Icon(
-                                                  Icons.location_on_rounded,
-                                                  color: Colors.black,
-                                                ),
-                                                const SizedBox(
-                                                  width: 10,
-                                                ),
                                                 SizedBox(
                                                   width: 100,
                                                   child: TextBold(
-                                                      text: passData[
-                                                          'userDestination'],
-                                                      fontSize: 10,
-                                                      color: Colors.black),
+                                                      text:
+                                                          '₱${passData['total']}.00',
+                                                      fontSize: 18,
+                                                      color: Colors.green),
                                                 ),
                                               ],
                                             ),
@@ -197,13 +188,13 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                                           title: SizedBox(
                                             width: 275,
                                             child: TextBold(
-                                                text: passData['userName'],
+                                                text: passData['name'],
                                                 fontSize: 16,
                                                 color: blueAccent),
                                           ),
                                           subtitle: TextRegular(
                                               text:
-                                                  'February 14, 2023 | 01:43PM',
+                                                  '${passData['ride']} - ${passData['persons']}',
                                               fontSize: 12,
                                               color: Colors.black),
                                         ),
