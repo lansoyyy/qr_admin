@@ -11,7 +11,8 @@ class ListTileWidget extends StatelessWidget {
   final double perct;
 
   const ListTileWidget(
-      {required this.title,
+      {super.key,
+      required this.title,
       required this.subtitle,
       required this.icon,
       required this.color,
@@ -36,7 +37,7 @@ class ListTileWidget extends StatelessWidget {
               animation: true,
               lineHeight: 20.0,
               animationDuration: 2000,
-              percent: perct,
+              percent: perct * 0.1,
               linearStrokeCap: LinearStrokeCap.roundAll,
               progressColor: color,
             ),

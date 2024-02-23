@@ -126,7 +126,7 @@ class DashboardTab extends StatelessWidget {
                           double earnings = 0;
 
                           for (int i = 0; i < data.docs.length; i++) {
-                            earnings += data.docs[i]['payment'];
+                            earnings += data.docs[i]['total'];
                           }
                           return CardWidget(
                             widget: ListTile(
