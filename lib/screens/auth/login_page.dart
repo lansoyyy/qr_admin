@@ -59,7 +59,7 @@ class LoginPage extends StatelessWidget {
                 color: secondaryRed,
                 label: 'Login',
                 onPressed: () {
-                  if (username == 'cvkatcoadmin' && password == 'cvkatco') {
+                  if (username == 'algovision' && password == 'algovision') {
                     Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   } else {

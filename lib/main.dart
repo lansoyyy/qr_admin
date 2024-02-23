@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:metro_admin/screens/home_screen.dart';
+import 'package:metro_admin/screens/auth/login_page.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 
 void main() async {
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HomeScreen(),
+      home: LoginPage(),
       title: 'Amusement Park',
       builder: ((context, child) {
         return ResponsiveWrapper.builder(child,
